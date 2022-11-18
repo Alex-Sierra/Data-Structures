@@ -1,8 +1,5 @@
 #include <bits/stdc++.h>
  
-#define MAX(a, b) (a > b) ? a : b
-#define MIN(a, b) (a < b) ? a : b
- 
 using namespace std;
 typedef long long ll;
 typedef vector<int> vi;
