@@ -34,14 +34,14 @@ struct heap {
             i = j;
         }
     }
-    void insert(int x) {
+    void push(int x) {
         h.push_back(x);
         sift_up(h.size() - 1);
     }
     bool empty() {
         return h.empty();
     }
-    int extract_max() {
+    int pop() {
         int result = h[0];
         h[0] = h.back();
         h.pop_back();
@@ -51,7 +51,7 @@ struct heap {
     void remove(int i) {
         h[i] = INT_MAX;
         sift_up(i);
-        extract_max();
+        pop();
     }
     void change_priority(int i, int p) {
         int old_p = h[i];
