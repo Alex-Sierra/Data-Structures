@@ -2,17 +2,18 @@
  
 using namespace std;
 
-// avl
 struct avl
 {
     int key;
     int height;
+    int size;
     avl *left;
     avl *right;
 
     avl(int k) {
         key = k;
         height = 1;
+        size = 1;
         left = NULL;
         right = NULL;
     }
@@ -28,6 +29,19 @@ struct avl
             rightHeight = right->height;
 
         return leftHeight - rightHeight;
+    }
+
+    void updateSize() {
+        int leftSize = 0;
+        int rightSize = 0;
+
+        if (left != NULL)
+            leftSize = left->size;
+
+        if (right != NULL)
+            rightSize = right->size;
+
+        size = leftSize + rightSize + 1;
     }
 
     void updateHeight() {
@@ -63,6 +77,7 @@ struct avl
 
     avl *balance() {
         updateHeight();
+        updateSize();
         int balance = getBalance();
 
         if (balance == 2) {
@@ -132,6 +147,32 @@ struct avl
         }
 
         return balance();
+    }
+
+    int getRank(int k) {
+        if (k < key) {
+            if (left == NULL)
+                return 0;
+            else
+                return left->getRank(k);
+        }
+        else if (k > key) {
+            if (right == NULL)
+                return 1 + left->size;
+            else
+                return 1 + left->size + right->getRank(k);
+        }
+        else
+            return left->size;
+    }
+
+    int getKth(int k) {
+        if (k < left->size)
+            return left->getKth(k);
+        else if (k > left->size)
+            return right->getKth(k - left->size - 1);
+        else
+            return key;
     }
 
     ~avl()
