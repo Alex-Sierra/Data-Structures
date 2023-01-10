@@ -2,8 +2,7 @@
  
 using namespace std;
 
-struct avl
-{
+struct avl {
     int key;
     int height;
     int size;
@@ -175,12 +174,33 @@ struct avl
             return key;
     }
 
-    ~avl()
-    {
-        if (left != NULL)
-            delete left;
+    static avl *join(avl *left, avl *right) {
+        if (left->height < right->height) {
+            right->left = join(left, right->left);
+            return right->balance();
+        }
+        else if (left->height > right->height) {
+            left->right = join(left->right, right);
+            return left->balance();
+        }
+        else {
+            avl *min = right->findMin();
+            min->right = right->removeMin();
+            min->left = left;
+            return min->balance();
+        }
+    }
 
-        if (right != NULL)
-            delete right;
+    pair<avl *, avl *> split(int k) {
+        if (k < key) {
+            pair<avl *, avl *> p = left->split(k);
+            left = p.second;
+            return {p.first, join(this, left)};
+        }
+        else {
+            pair<avl *, avl *> p = right->split(k);
+            right = p.first;
+            return {join(this, right), p.second};
+        }
     }
 };
