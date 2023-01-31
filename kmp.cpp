@@ -7,6 +7,7 @@ vector<int> kmp(string text, string pattern) {
     int m = pattern.size();
     vector<int> pi(m);
     vector<int> result;
+    // prefix function
     for (int i = 1; i < m; i++) {
         int j = pi[i - 1];
         while (j > 0 && pattern[i] != pattern[j])

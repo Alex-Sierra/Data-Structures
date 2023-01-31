@@ -49,7 +49,7 @@ struct heap {
         return result;
     }
     void remove(int i) {
-        h[i] = INT_MAX;
+        h[i] = _comparer ? INT_MAX : INT_MIN;
         sift_up(i);
         pop();
     }
